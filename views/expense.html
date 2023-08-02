@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+
+    <style>
+        body{
+            background-color: rgb(220, 247, 220);
+            margin:0px;
+        }
+
+     #header{
+            display:flex;
+            flex-direction:row;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 100px;
+            margin-top: 0px;
+            background-color: rgb(75, 126, 75);
+            height: 8vh;
+        }
+  #monthlyreport2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    color: black;
+    border-radius: 8px;
+    margin: 10px;
+    }
+  #dailyreport2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    color: black;
+    border-radius: 8px;
+    margin: 10px;
+ }
+  #report{
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+  }
+  #monthlyreport,#dailyreport{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    background-color: rgb(197, 243, 197);
+    border-radius: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    }
+    button{
+        background-color: rgb(220, 247, 220);
+        
+    }
+
+  /* #daily1,#monthly1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+   */
+   th,td{
+    /* margin:120px; */
+    padding-left: 50px;
+    padding-left: 50px;
+   }
+   #primeuser{
+   position:absolute;
+   right:2rem;
+   top:.1rem;
+    color: white;
+   }
+   #expense-div{
+    height: 20vh;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: rgb(164, 216, 164);
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+   }
+   #rows-per-page{
+    float:right;
+   }
+   #expense-list2{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+   }
+   #daily1,#monthly1{
+    display:flex;
+    flex-direction: column;
+   }
+   #leaderboard-div{
+    position:absolute;
+    left:40%;
+    top:40%;
+    width:50vh;
+    height:40vh;
+    background-color: rgb(197, 243, 197);
+   }
+   .pagination{
+    margin:20px;
+   }
+
+    </style>
+    
+</head>
+<body>
+    <div id="header">
+
+        <button id="home" onclick="home()">Home</button>
+        <button id="razorbutton" >Buy Premium</button>
+        <button id="leaderboard_btn" >Show Leaderboard</button>
+        <!-- <button onclick="download()" id="download_btn" style="display: none">Download</button> -->
+        <button onclick="report()" id="report_btn" >Report</button>
+    </div>
+    <h3 id="primeuser"></h3>
+    <div id="expense-div">
+    <form id="expense">
+        <label for="amount">Amount:</label>
+        <input type="number" class="entry-field" id="amount" required>
+        <label for="description">Description:</label>
+        <input type="text" class="entry-field" id="description" required>
+        <label for="category">Category:</label>
+        <select id="category">
+          <option value="food">Food</option>
+          <option value="fuel">Fuel</option>
+          <option value="movie">Movie</option>
+          <option value="rent">Rent</option>
+          <option value="others">Others</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+      </div>  
+        
+    <div id="expense-list">
+        <div id="rows-per-page">
+            <form id="rows-form">
+                <label for="row-selector">No. of expenses per page:</label>
+                <select id="row-selector">
+                    <option selected disabled hidden>Choose here</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                </select>
+            </form>
+        </div> 
+        <div id="expense-list2">
+        <div id="expensetable-div">
+        <table id="expensetable">
+            <thead id="expensetable1">
+                <tr>
+                    <td>Date</td>
+                    <td>Amount</td>
+                    <td>Description</td>
+                    <td>Category</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody id="expensetable2"></tbody>
+        </table>
+            </div>
+        <div class="pagination">
+
+        </div>
+        </div>
+       
+        </div>
+
+        <div style="display: none" id="leaderboard-div">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboard">
+    
+                
+            </ul>
+        </div>
+        <div  style="display: none" id="prevDownloads-div">
+            <h2>Downloads</h2>
+            <ul id="downloads">
+    
+                
+            </ul>
+        </div>
+
+        <div id="expansion" style="display:none">
+            <div id="expansion-header">
+                <h3>Expense Details</h3>
+                <button id="close-list-btn">X</button>
+    
+            </div>
+            <ul class="expense-items">
+                
+            </ul>
+        </div>
+        <div id="report" style="display:none">
+            <div>
+            <div id="monthlyreport">
+                <div><h3 id="monthlyreport1">Monthly Expense Report</h3></div>
+                <div id="monthlyreport2">
+                    <div>
+                       <form id="monthly1">
+                        <div>
+                            <label for="month">Choose Month:</label>
+                            <input type="month" id="month">
+                            </div>
+                            <input type="submit" value="Show">
+                        </form>
+                    </div>
+                    <div>
+                        <table id="monthly2">
+                            <thead id="monthly3">
+                                <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody id="monthly4">
+
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    
+                </div>
+                    <!-- <div class="total"><strong>Total:<span id="total1"></span></strong></div> -->
+                </div>
+            </div>
+<div>
+            <div id="dailyreport">
+                <div><h3 id="dailyreport1">Daily Expense Report</h3></div>
+                <div id="dailyreport2">
+                    <div id="dailyreport3">
+                        <form id="daily1">
+                            <div>
+                            <label for="day">Choose Date:</label>
+                            <input type="date" id="day">
+                            </div>
+                            <input type="submit" value="Show">
+                        </form>
+                    </div>
+                    <div id="dailyreport4">
+                       <table id="daily2">
+                        <thead id="daily3">
+                            <tr>
+                            <th>Date</th>
+                            <th>amount</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody id="daily4">
+
+                        </tbody>
+                            
+                       </table>
+                    </div>
+                </div>
+                  <!-- <div class="total" ><strong>Total:<span id="total2"></span></strong></div> -->
+            </div>
+            </div>
+        </div>
+        </body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+        <script src="expense.js"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        </html>
